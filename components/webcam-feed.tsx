@@ -1,0 +1,121 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { useWebcam } from '@/lib/hooks/use-webcam';
+import { useHandPose } from '@/lib/hooks/use-hand-pose';
+
+/**
+ * Renders a mirrored webcam video feed with loading and error states.
+ *
+ * Uses **declarative stream binding**: the component owns the `<video>`
+ * ref and binds the `MediaStream` from `useWebcam()` via a `useEffect`.
+ * This cleanly separates the stream lifecycle (hook) from the DOM
+ * element lifecycle (component), avoiding async race conditions with
+ * React 19 Strict Mode double-mount.
+ *
+ * The video is horizontally flipped via CSS (`-scale-x-1`) so that
+ * the user's movements appear natural — consistent with CONSTRAINTS.md §4.
+ */
+export default function WebcamFeed() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { stream, isLoading, error } = useWebcam();
+
+  // Hand-pose detection — active only once the webcam stream is live.
+  const { handsRef, isDetecting, error: poseError } = useHandPose({
+    videoRef,
+    isEnabled: !!stream,
+  });
+
+  // Lightweight periodic debug log (every 2 s — NOT inside the rAF loop).
+  useEffect(() => {
+    if (!isDetecting) return;
+
+    const id = setInterval(() => {
+      const count = handsRef.current.length;
+      console.log(`[useHandPose] Hands detected: ${count}`);
+    }, 2000);
+
+    return () => clearInterval(id);
+  }, [isDetecting, handsRef]);
+
+  // Bind stream to the video element whenever it changes.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !stream) return;
+
+    video.srcObject = stream;
+    video.play().catch((err) => console.error('Video play error:', err));
+  }, [stream]);
+
+  // --- Error state ---
+  if (error) {
+    return (
+      <div className="flex items-center justify-center w-full aspect-video rounded-xl border border-red-300 bg-red-50 dark:bg-red-950 dark:border-red-800">
+        <div className="text-center px-6">
+          <p className="text-lg font-semibold text-red-600 dark:text-red-400">
+            🚫 Camera Access Denied
+          </p>
+          <p className="mt-2 text-sm text-red-500 dark:text-red-400">
+            {error}
+          </p>
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+            Please allow camera permissions and reload the page.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // --- Loading / permission-request state ---
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full aspect-video rounded-xl border border-zinc-200 bg-zinc-100 dark:bg-zinc-900 dark:border-zinc-800">
+        <div className="text-center">
+          <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-4 border-zinc-300 border-t-blue-500 dark:border-zinc-700 dark:border-t-blue-400" />
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            Requesting camera access…
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // --- Live video feed ---
+  return (
+    <div className="relative w-full overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        onLoadedMetadata={() => {
+          videoRef.current?.play().catch((err) =>
+            console.error('Video play error:', err),
+          );
+        }}
+        style={{ transform: 'scaleX(-1)' }} // Mirror the video feed
+        className="w-full aspect-video rounded-xl object-cover"
+      />
+      {/* Subtle live indicator */}
+      <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-red-600/80 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+        <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+        LIVE
+      </div>
+
+      {/* Detection status indicator */}
+      {isDetecting && (
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-emerald-600/80 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+          🤖 Detecting
+        </div>
+      )}
+
+      {/* Non-blocking pose error banner */}
+      {poseError && (
+        <div className="absolute bottom-3 left-3 right-3 rounded-lg bg-red-600/80 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
+          ⚠️ {poseError}
+        </div>
+      )}
+    </div>
+  );
+}
