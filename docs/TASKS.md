@@ -61,6 +61,6 @@ Dokumen ini berisi daftar tugas bertahap (incremental tasks). AI Agent WAJIB men
 ---
 
 ## Phase 5: Debug Tools & Polish
-- [ ] **Task 5.1: Performance & FPS Monitor Overlay**
+- [x] **Task 5.1: Performance & FPS Monitor Overlay**
   - Buat komponen overlay simpel di pojok layar untuk menampilkan real-time FPS, aktif backend (`webgl`), dan nama gestur yang sedang terdeteksi.
   - *Verification:* Widget debug membantu memantau performa selama sesi eksplorasi.

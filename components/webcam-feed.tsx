@@ -6,6 +6,7 @@ import { useHandPose } from '@/lib/hooks/use-hand-pose';
 import SkeletonCanvas from '@/components/skeleton-canvas';
 import VirtualCursor from '@/components/playground/virtual-cursor';
 import DraggableCard from '@/components/playground/draggable-card';
+import PerformanceMonitor from '@/components/playground/performance-monitor';
 import { interpretGesture } from '@/lib/gestures/interpreter';
 import type { GestureName } from '@/lib/gestures/types';
 import { GESTURE_EMOJI, GESTURE_DISPLAY_NAME } from '@/lib/gestures/types';
@@ -27,7 +28,7 @@ export default function WebcamFeed() {
   const { stream, isLoading, error } = useWebcam();
 
   // Hand-pose detection — active only once the webcam stream is live.
-  const { handsRef, isDetecting, error: poseError } = useHandPose({
+  const { handsRef, isDetecting, error: poseError, fpsRef, latencyRef } = useHandPose({
     videoRef,
     isEnabled: !!stream,
   });
@@ -38,6 +39,12 @@ export default function WebcamFeed() {
   // This limits React re-renders to discrete transitions only.
   const [gestureName, setGestureName] = useState<GestureName>('NONE');
   const gestureLatchRef = useRef<GestureName>('NONE');
+  /**
+   * Ref mirror of `gestureName` for the PerformanceMonitor.
+   * Written at the same time as gestureLatchRef so it's always in sync.
+   * Read by PerformanceMonitor via ref — no extra re-renders.
+   */
+  const gestureNameRef = useRef<GestureName>('NONE');
 
   useEffect(() => {
     if (!isDetecting) return;
@@ -53,6 +60,7 @@ export default function WebcamFeed() {
       // Only trigger a React re-render when the latched gesture changes
       if (result.name !== gestureLatchRef.current) {
         gestureLatchRef.current = result.name;
+        gestureNameRef.current = result.name; // Sync ref for PerformanceMonitor
         setGestureName(result.name);
       }
 
@@ -144,6 +152,15 @@ export default function WebcamFeed() {
         videoRef={videoRef}
         gestureName={gestureName}
       />
+
+      {/* Performance monitor HUD — bottom-left debug overlay. */}
+      <PerformanceMonitor
+        fpsRef={fpsRef}
+        latencyRef={latencyRef}
+        gestureNameRef={gestureNameRef}
+        backendName="WebGL"
+      />
+
       {/* Subtle live indicator */}
       <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-red-600/80 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
         <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-white" />

@@ -18,6 +18,17 @@ interface UseHandPoseReturn {
   isDetecting: boolean;
   /** Human-readable error if the detector could not be created. */
   error: string | null;
+  /**
+   * Current inference FPS (frames per second) calculated from delta time
+   * between consecutive `estimateHands()` completions. Updated via ref
+   * inside the rAF loop — does NOT trigger React re-renders.
+   */
+  fpsRef: React.RefObject<number>;
+  /**
+   * Duration (ms) of the most recent `estimateHands()` call.
+   * Measured with `performance.now()` — updated via ref, no re-renders.
+   */
+  latencyRef: React.RefObject<number>;
 }
 
 /**
@@ -37,7 +48,7 @@ interface UseHandPoseReturn {
  * @example
  * ```tsx
  * const videoRef = useRef<HTMLVideoElement>(null);
- * const { handsRef, isDetecting, error } = useHandPose({ videoRef, isEnabled: true });
+ * const { handsRef, isDetecting, error, fpsRef, latencyRef } = useHandPose({ videoRef, isEnabled: true });
  * ```
  */
 export function useHandPose({
@@ -47,6 +58,14 @@ export function useHandPose({
   const handsRef = useRef<Hand[]>([]);
   const requestRef = useRef<number>(0);
   const isProcessingRef = useRef(false);
+
+  // ── Performance timing refs (CONSTRAINTS §2 — no re-renders) ───────
+  /** Inference FPS calculated from delta time between detection frames. */
+  const fpsRef = useRef<number>(0);
+  /** Duration (ms) of the most recent estimateHands() call. */
+  const latencyRef = useRef<number>(0);
+  /** Timestamp of the previous detection completion (for FPS calculation). */
+  const lastDetectionTimeRef = useRef<number>(0);
 
   const [isDetecting, setIsDetecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -81,9 +100,30 @@ export function useHandPose({
             isProcessingRef.current = true;
 
             try {
+              const inferStart = performance.now();
               const hands = await detector.estimateHands(video);
+              const inferEnd = performance.now();
+
               if (!cancelled) {
                 handsRef.current = hands ?? [];
+
+                // ── Update latency ref (CONSTRAINTS §2 — ref only, no setState) ──
+                latencyRef.current = inferEnd - inferStart;
+
+                // ── Update FPS ref from delta time between detections ────────────
+                const now = performance.now();
+                if (lastDetectionTimeRef.current > 0) {
+                  const deltaMs = now - lastDetectionTimeRef.current;
+                  if (deltaMs > 0) {
+                    // Exponential moving average for smooth display
+                    const instantFps = 1000 / deltaMs;
+                    fpsRef.current =
+                      fpsRef.current === 0
+                        ? instantFps
+                        : fpsRef.current * 0.8 + instantFps * 0.2;
+                  }
+                }
+                lastDetectionTimeRef.current = now;
               }
             } catch (err) {
               // CRITICAL: on any detection error (e.g. dark/closed frame),
@@ -123,5 +163,5 @@ export function useHandPose({
     };
   }, [videoRef, isEnabled]);
 
-  return { handsRef, isDetecting, error };
+  return { handsRef, isDetecting, error, fpsRef, latencyRef };
 }
