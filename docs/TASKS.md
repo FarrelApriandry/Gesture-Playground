@@ -46,7 +46,7 @@ Dokumen ini berisi daftar tugas bertahap (incremental tasks). AI Agent WAJIB men
 ---
 
 ## Phase 4: Motion UI Integration & Playground
-- [ ] **Task 4.1: High-Speed Virtual Cursor**
+- [x] **Task 4.1: High-Speed Virtual Cursor**
   - Buat `components/playground/virtual-cursor.tsx`.
   - Hubungkan posisi Landmark 8 (Index Tip) saat gestur `POINT` ke Framer Motion `useMotionValue()`.
   - Render kursor kustom bergaya neon/glow yang mengikuti pergerakan telunjuk.

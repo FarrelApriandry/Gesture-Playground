@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useWebcam } from '@/lib/hooks/use-webcam';
 import { useHandPose } from '@/lib/hooks/use-hand-pose';
 import SkeletonCanvas from '@/components/skeleton-canvas';
+import VirtualCursor from '@/components/playground/virtual-cursor';
 import { interpretGesture } from '@/lib/gestures/interpreter';
 import type { GestureName } from '@/lib/gestures/types';
 import { GESTURE_EMOJI, GESTURE_DISPLAY_NAME } from '@/lib/gestures/types';
@@ -128,6 +129,13 @@ export default function WebcamFeed() {
       {/* Skeleton overlay — draws landmarks at video pixel coords;
           container is also scaleX(-1) so double-flip = natural position. */}
       <SkeletonCanvas handsRef={handsRef} videoRef={videoRef} />
+
+      {/* Virtual cursor — follows index finger tip when POINT gesture is active. */}
+      <VirtualCursor
+        handsRef={handsRef}
+        videoRef={videoRef}
+        isActive={gestureName === 'POINT'}
+      />
       {/* Subtle live indicator */}
       <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-red-600/80 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
         <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
