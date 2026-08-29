@@ -24,6 +24,10 @@
 
 ---
 
+## Link Demo
+
+> https://gesture-playground.vercel.app/
+
 ## Key Capabilities
 
 - **60 FPS Machine Vision Pipeline** -- WebGL-accelerated 21 hand-landmark detection with zero memory leaks. The singleton `HandDetector` is loaded once at mount time and disposed cleanly on unmount, ensuring no GPU memory is leaked across hot-reloads or navigation.
