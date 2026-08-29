@@ -19,13 +19,13 @@ Dokumen ini berisi daftar tugas bertahap (incremental tasks). AI Agent WAJIB men
 ---
 
 ## Phase 2: Detection Loop & Skeleton Overlay
-- [ ] **Task 2.1: RequestAnimationFrame Detection Hook**
+- [x] **Task 2.1: RequestAnimationFrame Detection Hook**
   - Buat `lib/hooks/use-hand-pose.ts` untuk menjalankan loop `requestAnimationFrame`.
   - Alirkan frame dari `<video>` ke `detector.estimateHands()` secara kontinu.
   - Simpan hasil 21 landmark dalam `useRef` (bukan `useState`).
   - *Verification:* Detection loop berjalan tanpa menurunkan FPS browser di bawah 45 FPS.
 
-- [ ] **Task 2.2: Skeleton Canvas Rendering**
+- [x] **Task 2.2: Skeleton Canvas Rendering**
   - Buat `components/skeleton-canvas.tsx` dengan elemen `<canvas>` transparan melayang di atas video.
   - Gambar 21 titik landmark dan garis penghubung antar-sendi di Canvas 2D context.
   - *Verification:* Titik dan garis skeleton tangan menempel pas dengan tangan asli di feed webcam.
