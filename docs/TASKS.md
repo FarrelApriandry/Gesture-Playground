@@ -52,7 +52,7 @@ Dokumen ini berisi daftar tugas bertahap (incremental tasks). AI Agent WAJIB men
   - Render kursor kustom bergaya neon/glow yang mengikuti pergerakan telunjuk.
   - *Verification:* Kursor bergerak mulus tanpa delay berat dan tanpa memicu React re-render.
 
-- [ ] **Task 4.2: Interactive Pinch-to-Drag Card**
+- [x] **Task 4.2: Interactive Pinch-to-Drag Card**
   - Buat `components/playground/draggable-card.tsx`.
   - Saat gestur `PINCH` aktif di atas area kartu, kunci posisi kartu ke koordinat kursor (Pinch-and-Hold).
   - Lepaskan kartu saat tangan berubah menjadi `OPEN_PALM`.

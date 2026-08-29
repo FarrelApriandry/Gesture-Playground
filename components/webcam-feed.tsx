@@ -5,6 +5,7 @@ import { useWebcam } from '@/lib/hooks/use-webcam';
 import { useHandPose } from '@/lib/hooks/use-hand-pose';
 import SkeletonCanvas from '@/components/skeleton-canvas';
 import VirtualCursor from '@/components/playground/virtual-cursor';
+import DraggableCard from '@/components/playground/draggable-card';
 import { interpretGesture } from '@/lib/gestures/interpreter';
 import type { GestureName } from '@/lib/gestures/types';
 import { GESTURE_EMOJI, GESTURE_DISPLAY_NAME } from '@/lib/gestures/types';
@@ -135,6 +136,13 @@ export default function WebcamFeed() {
         handsRef={handsRef}
         videoRef={videoRef}
         isActive={gestureName === 'POINT'}
+      />
+
+      {/* Draggable card — follows pinch midpoint when PINCH gesture is active. */}
+      <DraggableCard
+        handsRef={handsRef}
+        videoRef={videoRef}
+        gestureName={gestureName}
       />
       {/* Subtle live indicator */}
       <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-red-600/80 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
