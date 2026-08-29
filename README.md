@@ -15,11 +15,10 @@
 
 > **Application Preview**
 >
-> <!-- Replace the placeholder below with a screenshot or GIF of the running application. -->
-> <!-- Example: ![Application Preview](./docs/preview.gif) -->
+> ![Preview Project](/docs/images/1_images.png)
+> ![Preview Project](/docs/images/2_images.png)
+> ![Preview Project](/docs/images/3_images.png)
 >
-> ```
-> [ Screenshot or demo GIF goes here ]
 > ```
 
 </div>
@@ -193,8 +192,8 @@ All gesture detection operates on 21 hand landmarks produced by the MediaPipe Ha
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/gesture-motion-playground.git
-cd gesture-motion-playground/gesture-playground
+git clone https://github.com/FarrelApriandry/Gesture-Playground.git
+cd gesture-playground
 
 # 2. Install dependencies
 npm install
