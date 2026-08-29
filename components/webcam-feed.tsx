@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useWebcam } from '@/lib/hooks/use-webcam';
 import { useHandPose } from '@/lib/hooks/use-hand-pose';
+import SkeletonCanvas from '@/components/skeleton-canvas';
 
 /**
  * Renders a mirrored webcam video feed with loading and error states.
@@ -25,18 +26,6 @@ export default function WebcamFeed() {
     videoRef,
     isEnabled: !!stream,
   });
-
-  // Lightweight periodic debug log (every 2 s — NOT inside the rAF loop).
-  useEffect(() => {
-    if (!isDetecting) return;
-
-    const id = setInterval(() => {
-      const count = handsRef.current.length;
-      console.log(`[useHandPose] Hands detected: ${count}`);
-    }, 2000);
-
-    return () => clearInterval(id);
-  }, [isDetecting, handsRef]);
 
   // Bind stream to the video element whenever it changes.
   useEffect(() => {
@@ -85,6 +74,8 @@ export default function WebcamFeed() {
     <div className="relative w-full overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
       <video
         ref={videoRef}
+        width={1280}
+        height={720}
         autoPlay
         playsInline
         muted
@@ -96,6 +87,9 @@ export default function WebcamFeed() {
         style={{ transform: 'scaleX(-1)' }} // Mirror the video feed
         className="w-full aspect-video rounded-xl object-cover"
       />
+      {/* Skeleton overlay — draws landmarks at video pixel coords;
+          container is also scaleX(-1) so double-flip = natural position. */}
+      <SkeletonCanvas handsRef={handsRef} videoRef={videoRef} />
       {/* Subtle live indicator */}
       <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-red-600/80 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
         <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-white" />

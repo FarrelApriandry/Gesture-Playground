@@ -82,9 +82,6 @@ export function useHandPose({
 
             try {
               const hands = await detector.estimateHands(video);
-              if (hands && hands.length > 0) {
-                console.log('[useHandPose] Raw hand detected:', hands);
-              }
               if (!cancelled) {
                 handsRef.current = hands ?? [];
               }
