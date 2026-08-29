@@ -149,8 +149,10 @@ export default function WebcamFeed({
       {/* LIVE indicator */}
       <div className="absolute top-2 left-2 flex items-center gap-1.5 rounded-md bg-zinc-950/70 px-2 py-0.5 backdrop-blur-sm sm:top-3 sm:left-3 sm:gap-2 sm:px-2.5 sm:py-1">
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
+        {/* Short label on mobile, full label from sm+ */}
         <span className="text-[9px] font-medium uppercase tracking-widest text-zinc-400 sm:text-[10px]">
-          Live Camera
+          <span className="sm:hidden">Live</span>
+          <span className="hidden sm:inline">Live Camera</span>
         </span>
       </div>
 
@@ -159,16 +161,17 @@ export default function WebcamFeed({
         <div className="absolute top-2 right-2 flex items-center gap-1.5 rounded-md bg-zinc-950/70 px-2 py-0.5 backdrop-blur-sm sm:top-3 sm:right-3 sm:gap-2 sm:px-2.5 sm:py-1">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
           <span className="text-[9px] font-medium uppercase tracking-widest text-zinc-400 sm:text-[10px]">
-            Tracking
+            <span className="sm:hidden">On</span>
+            <span className="hidden sm:inline">Tracking</span>
           </span>
         </div>
       )}
 
-      {/* Gesture badge */}
+      {/* Gesture badge -- top-center on all sizes, avoids bottom overlay collision */}
       {isDetecting && gestureName !== 'NONE' && (
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-md bg-zinc-950/80 px-2.5 py-1 backdrop-blur-sm border border-zinc-700/50 sm:top-3 sm:bottom-auto sm:left-1/2 sm:gap-2 sm:px-3 sm:py-1.5">
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-md bg-zinc-950/80 px-2 py-0.5 backdrop-blur-sm border border-zinc-700/50 sm:top-3 sm:gap-2 sm:px-2.5 sm:py-1">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500" />
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-200 sm:text-xs">
+          <span className="text-[9px] font-semibold uppercase tracking-wider text-zinc-200 sm:text-[10px]">
             {GESTURE_DISPLAY_NAME[gestureName]}
           </span>
         </div>
@@ -176,7 +179,7 @@ export default function WebcamFeed({
 
       {/* Pose error banner */}
       {poseError && (
-        <div className="absolute bottom-2 left-2 right-2 rounded-lg bg-zinc-950/80 border border-zinc-700/50 px-2.5 py-1.5 text-[10px] text-zinc-400 backdrop-blur-sm sm:bottom-3 sm:left-3 sm:right-3 sm:px-3 sm:py-2 sm:text-xs">
+        <div className="absolute bottom-2 left-2 right-2 rounded-md bg-zinc-950/80 border border-zinc-700/50 px-2 py-1 text-[9px] text-zinc-400 backdrop-blur-sm sm:bottom-3 sm:left-3 sm:right-3 sm:rounded-lg sm:px-3 sm:py-2 sm:text-xs">
           {poseError}
         </div>
       )}

@@ -168,7 +168,8 @@ export default function PerformanceMonitor({
             </span>
           </div>
 
-          <div className="flex items-center justify-between gap-3 sm:gap-4">
+          {/* Backend — hidden on xs to reduce monitor height on mobile */}
+          <div className="hidden sm:flex items-center justify-between gap-4">
             <span className="text-zinc-500">Backend</span>
             <span className="text-zinc-400">{backendName}</span>
           </div>

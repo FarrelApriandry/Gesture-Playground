@@ -42,7 +42,7 @@ const THUMB_TIP = 4;
 const INDEX_TIP = 8;
 
 /** Default card position (percentage of container). */
-const DEFAULT_X = 75;
+const DEFAULT_X = 65;
 const DEFAULT_Y = 35;
 
 /**

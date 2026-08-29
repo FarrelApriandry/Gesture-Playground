@@ -46,11 +46,14 @@ const CONNECTIONS: [number, number][] = [
   [0, 17],
 ];
 
+/** Base sizes (scaled dynamically relative to video width). */
+const BASE_VIDEO_WIDTH = 640;
+const DOT_RADIUS_BASE = 5;
+const LINE_WIDTH_BASE = 2;
+
 /** Blue accent -- cohesive with the dark UI. */
 const DOT_COLOR = '#a1a1aa';
 const LINE_COLOR = '#a1a1aa';
-const DOT_RADIUS = 5;
-const LINE_WIDTH = 2;
 
 /**
  * Transparent canvas overlay that draws hand skeleton landmarks on top of the
@@ -107,13 +110,19 @@ export default function SkeletonCanvas({
       ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
 
       if (hands.length > 0) {
+        // Scale drawing sizes proportionally to video width
+        // so skeleton looks correct on both desktop (1280px) and mobile (320px).
+        const scale = canvas!.width / BASE_VIDEO_WIDTH;
+        const dotRadius = DOT_RADIUS_BASE * scale;
+        const lineWidth = LINE_WIDTH_BASE * scale;
+
         // Coordinates are 1:1 with canvas pixels — no scaling needed.
         for (const hand of hands) {
           const kp = hand.keypoints;
 
           // Draw connections (bones).
           ctx!.strokeStyle = LINE_COLOR;
-          ctx!.lineWidth = LINE_WIDTH;
+          ctx!.lineWidth = lineWidth;
           ctx!.beginPath();
           for (const [from, to] of CONNECTIONS) {
             const a = kp[from];
@@ -128,7 +137,7 @@ export default function SkeletonCanvas({
           ctx!.fillStyle = DOT_COLOR;
           for (const point of kp) {
             ctx!.beginPath();
-            ctx!.arc(point.x, point.y, DOT_RADIUS, 0, Math.PI * 2);
+            ctx!.arc(point.x, point.y, dotRadius, 0, Math.PI * 2);
             ctx!.fill();
           }
         }

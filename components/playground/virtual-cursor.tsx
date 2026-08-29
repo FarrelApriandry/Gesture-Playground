@@ -142,14 +142,14 @@ export default function VirtualCursor({
         translateY: '-50%',
       }}
     >
-      {/* Outer glow ring */}
-      <div className="absolute -inset-3 rounded-full bg-zinc-400/15 blur-md" />
+      {/* Outer glow ring — smaller on mobile */}
+      <div className="absolute -inset-2 rounded-full bg-zinc-400/15 blur-sm sm:-inset-3 sm:blur-md" />
 
-      {/* Mid glow ring */}
-      <div className="absolute -inset-1.5 rounded-full bg-zinc-400/25 blur-sm" />
+      {/* Mid glow ring — smaller on mobile */}
+      <div className="absolute -inset-1 rounded-full bg-zinc-400/25 blur-[2px] sm:-inset-1.5 sm:blur-sm" />
 
-      {/* Core cursor dot */}
-      <div className="relative h-3.5 w-3.5 rounded-full bg-white shadow-[0_0_8px_rgba(161,161,170,0.6)]" />
+      {/* Core cursor dot — smaller on mobile */}
+      <div className="relative h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_6px_rgba(161,161,170,0.6)] sm:h-3.5 sm:w-3.5 sm:shadow-[0_0_8px_rgba(161,161,170,0.6)]" />
     </motion.div>
   );
 }
