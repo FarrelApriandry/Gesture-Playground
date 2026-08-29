@@ -33,12 +33,12 @@ Dokumen ini berisi daftar tugas bertahap (incremental tasks). AI Agent WAJIB men
 ---
 
 ## Phase 3: Gesture Engine & Mathematics Parser
-- [ ] **Task 3.1: Math Primitives Module**
+- [x] **Task 3.1: Math Primitives Module**
   - Buat `lib/gestures/math.ts` berisi fungsi `getEuclideanDistance()`, `getHandSpan()`, dan `getNormalizedDistance()`.
   - Implemen kalkulasi pembalikan sumbu X ($\text{Width} - x$) untuk koreksi video mirror.
   - *Verification:* Unit test atau console output kalkulasi jarak antara Landmark 4 dan 8 secara akurat.
 
-- [ ] **Task 3.2: Gesture Interpreter Engine**
+- [x] **Task 3.2: Gesture Interpreter Engine**
   - Buat `lib/gestures/interpreter.ts` untuk mendeteksi gestur discrete (`PINCH`, `POINT`, `OPEN_PALM`, `FIST`, `VICTORY`).
   - Terapkan debouncing/latching 3 frame agar status gestur tidak *flickering*.
   - *Verification:* Log status gestur berganti dengan mulus saat kamu mengubah posisi tangan di depan kamera.

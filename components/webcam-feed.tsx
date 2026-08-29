@@ -1,9 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useWebcam } from '@/lib/hooks/use-webcam';
 import { useHandPose } from '@/lib/hooks/use-hand-pose';
 import SkeletonCanvas from '@/components/skeleton-canvas';
+import { interpretGesture } from '@/lib/gestures/interpreter';
+import type { GestureName } from '@/lib/gestures/types';
+import { GESTURE_EMOJI, GESTURE_DISPLAY_NAME } from '@/lib/gestures/types';
 
 /**
  * Renders a mirrored webcam video feed with loading and error states.
@@ -26,6 +29,41 @@ export default function WebcamFeed() {
     videoRef,
     isEnabled: !!stream,
   });
+
+  // ─── Gesture Badge (Discrete Event Pipeline — CONSTRAINTS §2 & ARCH §3B) ───
+  // The rAF loop reads handsRef and runs interpretGesture() every frame,
+  // but only writes to `gestureName` state when the gesture *changes*.
+  // This limits React re-renders to discrete transitions only.
+  const [gestureName, setGestureName] = useState<GestureName>('NONE');
+  const gestureLatchRef = useRef<GestureName>('NONE');
+
+  useEffect(() => {
+    if (!isDetecting) return;
+
+    let cancelled = false;
+    let frameId = 0;
+
+    function poll() {
+      if (cancelled) return;
+
+      const result = interpretGesture(handsRef.current);
+
+      // Only trigger a React re-render when the latched gesture changes
+      if (result.name !== gestureLatchRef.current) {
+        gestureLatchRef.current = result.name;
+        setGestureName(result.name);
+      }
+
+      frameId = requestAnimationFrame(poll);
+    }
+
+    frameId = requestAnimationFrame(poll);
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frameId);
+    };
+  }, [isDetecting, handsRef]);
 
   // Bind stream to the video element whenever it changes.
   useEffect(() => {
@@ -101,6 +139,14 @@ export default function WebcamFeed() {
         <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-emerald-600/80 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
           <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
           🤖 Detecting
+        </div>
+      )}
+
+      {/* Gesture badge — shows detected gesture name in real-time */}
+      {isDetecting && gestureName !== 'NONE' && (
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-black/70 px-4 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm transition-all duration-200">
+          <span className="text-base">{GESTURE_EMOJI[gestureName]}</span>
+          <span>{GESTURE_DISPLAY_NAME[gestureName]}</span>
         </div>
       )}
 
