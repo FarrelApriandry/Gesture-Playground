@@ -217,13 +217,15 @@ export default function DraggableCard({
     >
       {/* Glow halo -- visible only while dragging */}
       {isDragging && (
-        <div className="absolute -inset-4 rounded-2xl bg-emerald-400/10 blur-xl" />
+        <div className="absolute -inset-3 rounded-xl bg-emerald-400/10 blur-lg sm:-inset-4 sm:rounded-2xl sm:blur-xl" />
       )}
 
       {/* Card body */}
       <div
         className={`
-          relative w-52 rounded-xl p-4 transition-shadow duration-200
+          relative w-40 rounded-lg p-3 transition-shadow duration-200
+          sm:w-48 sm:rounded-xl sm:p-4
+          lg:w-52
           ${
             isDragging
               ? 'border border-emerald-500/40 bg-zinc-900 shadow-[0_0_20px_rgba(16,185,129,0.15)]'
@@ -232,20 +234,20 @@ export default function DraggableCard({
         `}
       >
         {/* Drag handle indicator */}
-        <div className="mb-3 flex items-center justify-center">
+        <div className="mb-2 flex items-center justify-center sm:mb-3">
           <span
-            className={`h-1 w-8 rounded-full transition-colors duration-200 ${
+            className={`h-1 w-6 rounded-full transition-colors duration-200 sm:w-8 ${
               isDragging ? 'bg-zinc-500' : 'bg-zinc-600'
             }`}
           />
         </div>
 
         {/* Card content */}
-        <div className="space-y-1.5">
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-300">
+        <div className="space-y-1 sm:space-y-1.5">
+          <h3 className="text-[10px] font-semibold uppercase tracking-widest text-zinc-300 sm:text-xs">
             Gesture Card
           </h3>
-          <p className="text-[11px] text-zinc-500">
+          <p className="text-[10px] text-zinc-500 sm:text-[11px]">
             {isDragging
               ? 'Dragging -- release to drop.'
               : 'Pinch near this card to drag.'}
@@ -253,11 +255,11 @@ export default function DraggableCard({
         </div>
 
         {/* Status dots */}
-        <div className="mt-3 flex gap-1.5">
+        <div className="mt-2 flex gap-1 sm:mt-3 sm:gap-1.5">
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className={`h-1.5 w-1.5 rounded-full transition-colors duration-200 ${
+              className={`h-1 w-1 rounded-full transition-colors duration-200 sm:h-1.5 sm:w-1.5 ${
                 isDragging ? 'bg-zinc-500' : 'bg-zinc-600'
               }`}
             />

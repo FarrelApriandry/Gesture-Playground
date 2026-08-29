@@ -58,14 +58,14 @@ export default function Home() {
       <AppHeader />
 
       {/* Main content */}
-      <main className="flex flex-1 w-full flex-col items-center px-4 py-10 sm:px-6 lg:px-8">
-        <div className="w-full max-w-7xl space-y-8">
+      <main className="flex flex-1 w-full flex-col items-center px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-10">
+        <div className="w-full max-w-7xl space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Hero / Intro */}
           <div className="max-w-2xl">
-            <h1 className="text-2xl font-bold tracking-tight text-zinc-50 sm:text-3xl">
+            <h1 className="text-xl font-bold tracking-tight text-zinc-50 sm:text-2xl lg:text-3xl">
               Gesture Motion Playground
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+            <p className="mt-1.5 text-xs leading-relaxed text-zinc-400 sm:mt-2 sm:text-sm">
               A real-time hand tracking interface built for experimentation
               with computer vision and interaction.
             </p>
@@ -96,8 +96,8 @@ export default function Home() {
           />
 
           {/* Footer */}
-          <footer className="border-t border-zinc-800/60 pt-6 pb-8">
-            <p className="text-[10px] font-medium uppercase tracking-widest text-zinc-600">
+          <footer className="border-t border-zinc-800/60 pt-4 pb-6 sm:pt-6 sm:pb-8">
+            <p className="text-[9px] font-medium uppercase tracking-widest text-zinc-600 sm:text-[10px]">
               Gesture Motion Playground -- Computer Vision Experiment
             </p>
           </footer>

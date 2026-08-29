@@ -107,28 +107,28 @@ export default function StatusCards({
   }, [handsRef, fpsRef, gestureName]);
 
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <div className="grid grid-cols-1 gap-2.5 sm:gap-3 sm:grid-cols-3">
       {/* Tracking */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3">
-        <p className="mb-1 text-[10px] font-medium uppercase tracking-widest text-zinc-500">
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2.5 sm:rounded-xl sm:px-4 sm:py-3">
+        <p className="mb-0.5 text-[9px] font-medium uppercase tracking-widest text-zinc-500 sm:mb-1 sm:text-[10px]">
           HAND TRACKING
         </p>
         <span
           ref={trackingTextRef}
-          className="text-sm tabular-nums text-zinc-300"
+          className="text-xs tabular-nums text-zinc-300 sm:text-sm"
         >
           --
         </span>
       </div>
 
       {/* Gesture */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3">
-        <p className="mb-1 text-[10px] font-medium uppercase tracking-widest text-zinc-500">
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2.5 sm:rounded-xl sm:px-4 sm:py-3">
+        <p className="mb-0.5 text-[9px] font-medium uppercase tracking-widest text-zinc-500 sm:mb-1 sm:text-[10px]">
           GESTURE
         </p>
         <span
           ref={gestureTextRef}
-          className={`text-sm font-medium ${
+          className={`text-xs font-medium sm:text-sm ${
             gestureName !== 'NONE' ? 'text-zinc-400' : 'text-zinc-400'
           }`}
         >
@@ -137,14 +137,14 @@ export default function StatusCards({
       </div>
 
       {/* Performance */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3">
-        <p className="mb-1 text-[10px] font-medium uppercase tracking-widest text-zinc-500">
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2.5 sm:rounded-xl sm:px-4 sm:py-3">
+        <p className="mb-0.5 text-[9px] font-medium uppercase tracking-widest text-zinc-500 sm:mb-1 sm:text-[10px]">
           PERFORMANCE
         </p>
-        <span ref={fpsTextRef} className="text-sm tabular-nums text-zinc-300">
+        <span ref={fpsTextRef} className="text-xs tabular-nums text-zinc-300 sm:text-sm">
           --
         </span>
-        <span className="ml-2 text-xs text-zinc-500">{backendName}</span>
+        <span className="ml-1.5 text-[10px] text-zinc-500 sm:ml-2 sm:text-xs">{backendName}</span>
       </div>
     </div>
   );

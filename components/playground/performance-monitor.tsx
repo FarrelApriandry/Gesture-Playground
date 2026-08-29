@@ -148,39 +148,39 @@ export default function PerformanceMonitor({
     <div
       ref={panelRef}
       aria-label="Performance monitor"
-      className="pointer-events-none absolute bottom-3 left-3 z-40 select-none"
+      className="pointer-events-none absolute bottom-2 left-2 z-40 select-none sm:bottom-3 sm:left-3"
     >
-      <div className="rounded-lg border border-zinc-700/50 bg-zinc-950/80 px-5 py-4 font-mono text-sm leading-normal backdrop-blur-sm">
+      <div className="rounded-md border border-zinc-700/50 bg-zinc-950/80 px-3 py-2.5 font-mono text-xs leading-normal backdrop-blur-sm sm:rounded-lg sm:px-5 sm:py-4 sm:text-sm">
         {/* Header */}
-        <div className="mb-1.5 flex items-center gap-1.5">
+        <div className="mb-1 flex items-center gap-1.5 sm:mb-1.5">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-zinc-500 shadow-[0_0_4px_rgba(161,161,170,0.5)]" />
-          <span className="text-xs font-medium uppercase tracking-widest text-zinc-500">
+          <span className="text-[9px] font-medium uppercase tracking-widest text-zinc-500 sm:text-xs">
             Monitor
           </span>
         </div>
 
         {/* Metrics */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between gap-4">
+        <div className="space-y-0.5 sm:space-y-1">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <span className="text-zinc-500">FPS</span>
             <span ref={fpsTextRef} className="tabular-nums text-zinc-300">
               --
             </span>
           </div>
 
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <span className="text-zinc-500">Backend</span>
             <span className="text-zinc-400">{backendName}</span>
           </div>
 
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <span className="text-zinc-500">Latency</span>
             <span ref={latencyTextRef} className="tabular-nums text-zinc-300">
               --
             </span>
           </div>
 
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <span className="text-zinc-500">Gesture</span>
             <span ref={gestureTextRef} className="text-zinc-300">
               --

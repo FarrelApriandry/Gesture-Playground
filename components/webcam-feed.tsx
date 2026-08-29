@@ -69,17 +69,17 @@ export default function WebcamFeed({
   // -- Error state ----------------------------------------------------------
   if (webcamError) {
     return (
-      <div className="flex items-center justify-center w-full aspect-video rounded-2xl border border-zinc-800 bg-zinc-900">
-        <div className="text-center max-w-sm px-6">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-800">
-            <svg className="h-5 w-5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <div className="flex items-center justify-center w-full aspect-video rounded-xl border border-zinc-800 bg-zinc-900 sm:rounded-2xl">
+        <div className="text-center max-w-xs px-4 sm:max-w-sm sm:px-6">
+          <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-800 sm:mb-4 sm:h-12 sm:w-12">
+            <svg className="h-4 w-4 text-zinc-400 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
             </svg>
           </div>
-          <p className="text-xs font-medium uppercase tracking-widest text-zinc-500 mb-2">
+          <p className="text-[10px] font-medium uppercase tracking-widest text-zinc-500 mb-1.5 sm:text-xs sm:mb-2">
             Camera Access Required
           </p>
-          <p className="text-sm text-zinc-400">
+          <p className="text-xs text-zinc-400 sm:text-sm">
             Allow camera access in your browser to use gesture tracking.
           </p>
         </div>
@@ -90,13 +90,13 @@ export default function WebcamFeed({
   // -- Loading state --------------------------------------------------------
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center w-full aspect-video rounded-2xl border border-zinc-800 bg-zinc-900">
+      <div className="flex items-center justify-center w-full aspect-video rounded-xl border border-zinc-800 bg-zinc-900 sm:rounded-2xl">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-zinc-700 border-t-blue-500" />
-          <p className="text-xs font-medium uppercase tracking-widest text-zinc-500 mb-1">
+          <div className="mx-auto mb-3 h-6 w-6 animate-spin rounded-full border-2 border-zinc-700 border-t-blue-500 sm:mb-4 sm:h-8 sm:w-8" />
+          <p className="text-[10px] font-medium uppercase tracking-widest text-zinc-500 mb-1 sm:text-xs">
             Initializing Camera
           </p>
-          <p className="text-sm text-zinc-400">Preparing hand tracking...</p>
+          <p className="text-xs text-zinc-400 sm:text-sm">Preparing hand tracking...</p>
         </div>
       </div>
     );
@@ -104,7 +104,7 @@ export default function WebcamFeed({
 
   // -- Live video feed ------------------------------------------------------
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+    <div className="relative w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 sm:rounded-2xl">
       <video
         ref={videoRef}
         width={1280}
@@ -147,28 +147,28 @@ export default function WebcamFeed({
       />
 
       {/* LIVE indicator */}
-      <div className="absolute top-3 left-3 flex items-center gap-2 rounded-md bg-zinc-950/70 px-2.5 py-1 backdrop-blur-sm">
+      <div className="absolute top-2 left-2 flex items-center gap-1.5 rounded-md bg-zinc-950/70 px-2 py-0.5 backdrop-blur-sm sm:top-3 sm:left-3 sm:gap-2 sm:px-2.5 sm:py-1">
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
-        <span className="text-[10px] font-medium uppercase tracking-widest text-zinc-400">
+        <span className="text-[9px] font-medium uppercase tracking-widest text-zinc-400 sm:text-[10px]">
           Live Camera
         </span>
       </div>
 
       {/* Detection status */}
       {isDetecting && (
-        <div className="absolute top-3 right-3 flex items-center gap-2 rounded-md bg-zinc-950/70 px-2.5 py-1 backdrop-blur-sm">
+        <div className="absolute top-2 right-2 flex items-center gap-1.5 rounded-md bg-zinc-950/70 px-2 py-0.5 backdrop-blur-sm sm:top-3 sm:right-3 sm:gap-2 sm:px-2.5 sm:py-1">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
-          <span className="text-[10px] font-medium uppercase tracking-widest text-zinc-400">
-            Tracking Active
+          <span className="text-[9px] font-medium uppercase tracking-widest text-zinc-400 sm:text-[10px]">
+            Tracking
           </span>
         </div>
       )}
 
       {/* Gesture badge */}
       {isDetecting && gestureName !== 'NONE' && (
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-md bg-zinc-950/80 px-3 py-1.5 backdrop-blur-sm border border-zinc-700/50">
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-md bg-zinc-950/80 px-2.5 py-1 backdrop-blur-sm border border-zinc-700/50 sm:top-3 sm:bottom-auto sm:left-1/2 sm:gap-2 sm:px-3 sm:py-1.5">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-200">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-200 sm:text-xs">
             {GESTURE_DISPLAY_NAME[gestureName]}
           </span>
         </div>
@@ -176,7 +176,7 @@ export default function WebcamFeed({
 
       {/* Pose error banner */}
       {poseError && (
-        <div className="absolute bottom-3 left-3 right-3 rounded-lg bg-zinc-950/80 border border-zinc-700/50 px-3 py-2 text-xs text-zinc-400 backdrop-blur-sm">
+        <div className="absolute bottom-2 left-2 right-2 rounded-lg bg-zinc-950/80 border border-zinc-700/50 px-2.5 py-1.5 text-[10px] text-zinc-400 backdrop-blur-sm sm:bottom-3 sm:left-3 sm:right-3 sm:px-3 sm:py-2 sm:text-xs">
           {poseError}
         </div>
       )}
