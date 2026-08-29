@@ -142,14 +142,14 @@ export default function VirtualCursor({
         translateY: '-50%',
       }}
     >
-      {/* Outer glow ring — pulsing neon halo */}
-      <div className="absolute -inset-4 animate-pulse rounded-full bg-cyan-400/25 blur-lg" />
+      {/* Outer glow ring */}
+      <div className="absolute -inset-3 rounded-full bg-zinc-400/15 blur-md" />
 
       {/* Mid glow ring */}
-      <div className="absolute -inset-2 rounded-full bg-cyan-400/40 blur-md shadow-[0_0_24px_rgba(34,211,238,0.5)]" />
+      <div className="absolute -inset-1.5 rounded-full bg-zinc-400/25 blur-sm" />
 
       {/* Core cursor dot */}
-      <div className="relative h-4 w-4 rounded-full bg-white shadow-[0_0_12px_rgba(34,211,238,0.8),0_0_32px_rgba(34,211,238,0.4)]" />
+      <div className="relative h-3.5 w-3.5 rounded-full bg-white shadow-[0_0_8px_rgba(161,161,170,0.6)]" />
     </motion.div>
   );
 }

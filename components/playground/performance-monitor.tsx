@@ -22,7 +22,7 @@
 import { useEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 import type { GestureName } from '@/lib/gestures/types';
-import { GESTURE_EMOJI, GESTURE_DISPLAY_NAME } from '@/lib/gestures/types';
+import { GESTURE_DISPLAY_NAME } from '@/lib/gestures/types';
 
 // ─── Constants ──────────────────────────────────────────────────────
 
@@ -106,7 +106,7 @@ export default function PerformanceMonitor({
           fpsEl.textContent = `${fps}`;
           fpsEl.className =
             fps >= FPS_GOOD
-              ? 'text-emerald-400'
+              ? 'text-zinc-400'
               : fps >= FPS_WARN
                 ? 'text-amber-400'
                 : 'text-red-400';
@@ -127,8 +127,8 @@ export default function PerformanceMonitor({
           if (gestureEl) {
             gestureEl.textContent =
               gesture !== 'NONE'
-                ? `${GESTURE_EMOJI[gesture]} ${GESTURE_DISPLAY_NAME[gesture]}`
-                : '— Idle';
+                ? GESTURE_DISPLAY_NAME[gesture]
+                : '--';
           }
         }
       }
@@ -143,52 +143,47 @@ export default function PerformanceMonitor({
     };
   }, [fpsRef, latencyRef, gestureNameRef]);
 
-  // ── Render ──────────────────────────────────────────────────────
+  // -- Render ----------------------------------------------------------------
   return (
     <div
       ref={panelRef}
       aria-label="Performance monitor"
       className="pointer-events-none absolute bottom-3 left-3 z-40 select-none"
     >
-      {/* Glassmorphism HUD panel */}
-      <div className="rounded-lg border border-cyan-500/30 bg-black/70 px-3 py-2 font-mono text-[11px] leading-tight shadow-[0_0_12px_rgba(34,211,238,0.15)] backdrop-blur-sm">
-        {/* Header accent line */}
+      <div className="rounded-lg border border-zinc-700/50 bg-zinc-950/80 px-5 py-4 font-mono text-sm leading-normal backdrop-blur-sm">
+        {/* Header */}
         <div className="mb-1.5 flex items-center gap-1.5">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-cyan-400/80">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-zinc-500 shadow-[0_0_4px_rgba(161,161,170,0.5)]" />
+          <span className="text-xs font-medium uppercase tracking-widest text-zinc-500">
             Monitor
           </span>
         </div>
 
-        {/* Metrics grid */}
+        {/* Metrics */}
         <div className="space-y-1">
-          {/* FPS */}
           <div className="flex items-center justify-between gap-4">
             <span className="text-zinc-500">FPS</span>
-            <span ref={fpsTextRef} className="text-emerald-400 tabular-nums">
-              —
+            <span ref={fpsTextRef} className="tabular-nums text-zinc-300">
+              --
             </span>
           </div>
 
-          {/* Backend */}
           <div className="flex items-center justify-between gap-4">
             <span className="text-zinc-500">Backend</span>
-            <span className="text-blue-400">{backendName}</span>
+            <span className="text-zinc-400">{backendName}</span>
           </div>
 
-          {/* Latency */}
           <div className="flex items-center justify-between gap-4">
             <span className="text-zinc-500">Latency</span>
-            <span ref={latencyTextRef} className="text-cyan-400 tabular-nums">
-              —
+            <span ref={latencyTextRef} className="tabular-nums text-zinc-300">
+              --
             </span>
           </div>
 
-          {/* Gesture */}
           <div className="flex items-center justify-between gap-4">
             <span className="text-zinc-500">Gesture</span>
-            <span ref={gestureTextRef} className="text-purple-400">
-              — Idle
+            <span ref={gestureTextRef} className="text-zinc-300">
+              --
             </span>
           </div>
         </div>

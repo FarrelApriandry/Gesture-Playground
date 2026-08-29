@@ -23,19 +23,6 @@ export interface GestureResult {
 }
 
 /**
- * Emoji label map for rendering gesture badges in the UI.
- * Ke here so the mapping lives in one canonical place.
- */
-export const GESTURE_EMOJI: Record<GestureName, string> = {
-  OPEN_PALM: '🖐️',
-  FIST: '✊',
-  PINCH: '👌',
-  POINT: '👉',
-  VICTORY: '✌️',
-  NONE: '',
-};
-
-/**
  * Human-readable display names for each gesture.
  */
 export const GESTURE_DISPLAY_NAME: Record<GestureName, string> = {

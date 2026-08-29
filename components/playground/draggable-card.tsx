@@ -215,54 +215,50 @@ export default function DraggableCard({
       }}
       transition={{ type: 'spring', damping: 20, stiffness: 300 }}
     >
-      {/* Outer glow halo — visible only while dragging */}
+      {/* Glow halo -- visible only while dragging */}
       {isDragging && (
-        <div className="absolute -inset-6 animate-pulse rounded-3xl bg-violet-400/20 blur-2xl" />
+        <div className="absolute -inset-4 rounded-2xl bg-emerald-400/10 blur-xl" />
       )}
 
       {/* Card body */}
       <div
         className={`
-          relative w-56 rounded-2xl p-5 backdrop-blur-md transition-shadow duration-300
+          relative w-52 rounded-xl p-4 transition-shadow duration-200
           ${
             isDragging
-              ? 'border-2 border-violet-400 bg-white/90 shadow-[0_0_40px_rgba(167,139,250,0.4),0_20px_60px_rgba(0,0,0,0.3)] dark:bg-zinc-800/90'
-              : 'border border-zinc-200 bg-white/70 shadow-lg dark:border-zinc-700 dark:bg-zinc-900/70'
+              ? 'border border-emerald-500/40 bg-zinc-900 shadow-[0_0_20px_rgba(16,185,129,0.15)]'
+              : 'border border-zinc-700 bg-zinc-900/90'
           }
         `}
       >
         {/* Drag handle indicator */}
-        <div className="mb-3 flex items-center justify-center gap-1">
+        <div className="mb-3 flex items-center justify-center">
           <span
-            className={`h-1 w-8 rounded-full transition-colors duration-300 ${
-              isDragging
-                ? 'bg-violet-400'
-                : 'bg-zinc-300 dark:bg-zinc-600'
+            className={`h-1 w-8 rounded-full transition-colors duration-200 ${
+              isDragging ? 'bg-zinc-500' : 'bg-zinc-600'
             }`}
           />
         </div>
 
         {/* Card content */}
-        <div className="space-y-2">
-          <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">
-            ✨ Gesture Card
+        <div className="space-y-1.5">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-300">
+            Gesture Card
           </h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-[11px] text-zinc-500">
             {isDragging
-              ? '🤏 Dragging! Release to drop.'
-              : '👌 Pinch near me to drag!'}
+              ? 'Dragging -- release to drop.'
+              : 'Pinch near this card to drag.'}
           </p>
         </div>
 
-        {/* Decorative status dots */}
+        {/* Status dots */}
         <div className="mt-3 flex gap-1.5">
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className={`h-2 w-2 rounded-full transition-colors duration-300 ${
-                isDragging
-                  ? 'bg-violet-400'
-                  : 'bg-zinc-300 dark:bg-zinc-600'
+              className={`h-1.5 w-1.5 rounded-full transition-colors duration-200 ${
+                isDragging ? 'bg-zinc-500' : 'bg-zinc-600'
               }`}
             />
           ))}

@@ -46,11 +46,11 @@ const CONNECTIONS: [number, number][] = [
   [0, 17],
 ];
 
-/** Neon green — matches the project's glow aesthetic. */
-const DOT_COLOR = '#00ff88';
-const LINE_COLOR = '#00ff88';
-const DOT_RADIUS = 6;
-const LINE_WIDTH = 3;
+/** Blue accent -- cohesive with the dark UI. */
+const DOT_COLOR = '#a1a1aa';
+const LINE_COLOR = '#a1a1aa';
+const DOT_RADIUS = 5;
+const LINE_WIDTH = 2;
 
 /**
  * Transparent canvas overlay that draws hand skeleton landmarks on top of the
