@@ -19,7 +19,6 @@
 > ![Preview Project](/docs/images/2_images.png)
 > ![Preview Project](/docs/images/3_images.png)
 >
-> ```
 
 </div>
 
