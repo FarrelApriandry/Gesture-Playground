@@ -15,9 +15,9 @@
 
 > **Application Preview**
 >
-> ![Preview Project](/docs/images/1_images.png)
-> ![Preview Project](/docs/images/2_images.png)
-> ![Preview Project](/docs/images/3_images.png)
+> ![Preview Project](/docs/images/1_new_images.png)
+> ![Preview Project](/docs/images/2_new_images.png)
+> ![Preview Project](/docs/images/3_new_images.png)
 >
 
 </div>
