@@ -12,7 +12,7 @@ interface UseHandPoseParams {
 }
 
 interface UseHandPoseReturn {
-  /** Latest detected hands (up to 1). Updated at ~60 FPS via ref — does NOT trigger React re-renders. */
+  /** Latest detected hands (up to 2). Updated at ~60 FPS via ref — does NOT trigger React re-renders. */
   handsRef: React.RefObject<Hand[]>;
   /** `true` while the requestAnimationFrame loop is actively running. */
   isDetecting: boolean;

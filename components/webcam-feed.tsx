@@ -23,8 +23,10 @@ import SkeletonCanvas from '@/components/skeleton-canvas';
 import VirtualCursor from '@/components/playground/virtual-cursor';
 import DraggableCard from '@/components/playground/draggable-card';
 import PerformanceMonitor from '@/components/playground/performance-monitor';
+import RasenganCanvas from '@/components/playground/rasengan-canvas';
 import type { GestureName } from '@/lib/gestures/types';
 import { GESTURE_DISPLAY_NAME } from '@/lib/gestures/types';
+import type { JutsuState } from '@/lib/gestures/jutsu-engine';
 
 // -- Props -------------------------------------------------------------------
 
@@ -40,6 +42,11 @@ interface WebcamFeedProps {
   latencyRef: RefObject<number>;
   gestureName: GestureName;
   gestureNameRef: RefObject<GestureName>;
+  jutsuState: JutsuState;
+  jutsuStateRef: RefObject<JutsuState>;
+  comboProgress: number;
+  comboProgressRef: RefObject<number>;
+  palmCenterRef: RefObject<{ x: number; y: number } | null>;
 }
 
 // -- Component ---------------------------------------------------------------
@@ -56,6 +63,11 @@ export default function WebcamFeed({
   latencyRef,
   gestureName,
   gestureNameRef,
+  jutsuState,
+  jutsuStateRef,
+  comboProgress,
+  comboProgressRef,
+  palmCenterRef,
 }: WebcamFeedProps) {
   // Bind stream to the video element whenever it changes.
   useEffect(() => {
@@ -124,6 +136,14 @@ export default function WebcamFeed({
       {/* Skeleton overlay */}
       <SkeletonCanvas handsRef={handsRef} videoRef={videoRef} />
 
+      {/* Rasengan particle canvas */}
+      <RasenganCanvas
+        handsRef={handsRef}
+        videoRef={videoRef}
+        palmCenterRef={palmCenterRef}
+        isActive={jutsuState === 'RASENGAN_ACTIVE'}
+      />
+
       {/* Virtual cursor */}
       <VirtualCursor
         handsRef={handsRef}
@@ -173,6 +193,28 @@ export default function WebcamFeed({
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500" />
           <span className="text-[9px] font-semibold uppercase tracking-wider text-zinc-200 sm:text-[10px]">
             {GESTURE_DISPLAY_NAME[gestureName]}
+          </span>
+        </div>
+      )}
+
+      {/* Jutsu HUD -- bottom-right combo status */}
+      {isDetecting && jutsuState !== 'IDLE' && (
+        <div className="absolute bottom-2 right-2 flex items-center gap-1.5 rounded-md bg-zinc-950/80 px-2 py-0.5 backdrop-blur-sm border border-zinc-700/50 sm:bottom-3 sm:right-3 sm:gap-2 sm:px-2.5 sm:py-1">
+          <span
+            className={`inline-block h-1.5 w-1.5 rounded-full ${
+              jutsuState === 'RASENGAN_ACTIVE'
+                ? 'bg-cyan-400 animate-pulse'
+                : jutsuState === 'RASENGAN_PRIMED'
+                  ? 'bg-emerald-400'
+                  : 'bg-amber-400'
+            }`}
+          />
+          <span className="text-[9px] font-mono font-medium uppercase tracking-wider text-zinc-300 sm:text-[10px]">
+            {jutsuState === 'RASENGAN_ACTIVE'
+              ? 'RASENGAN'
+              : jutsuState === 'RASENGAN_PRIMED'
+                ? 'PRIMED'
+                : `SEAL ${comboProgress}/3`}
           </span>
         </div>
       )}

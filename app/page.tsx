@@ -22,6 +22,7 @@ import { initTensorFlow } from '@/lib/tfjs/config';
 import { useWebcam } from '@/lib/hooks/use-webcam';
 import { useHandPose } from '@/lib/hooks/use-hand-pose';
 import { useGestureDetection } from '@/lib/hooks/use-gesture-detection';
+import { useJutsuEngine } from '@/lib/hooks/use-jutsu-engine';
 import AppHeader from '@/components/app-header';
 import WebcamFeed from '@/components/webcam-feed';
 import StatusCards from '@/components/status-card';
@@ -41,6 +42,18 @@ export default function Home() {
 
   // Gesture recognition -- discrete event pipeline
   const { gestureName, gestureNameRef } = useGestureDetection({
+    handsRef,
+    isDetecting,
+  });
+
+  // Jutsu combo engine -- Naruto seal sequence FSM
+  const {
+    jutsuState,
+    jutsuStateRef,
+    comboProgress,
+    comboProgressRef,
+    palmCenterRef,
+  } = useJutsuEngine({
     handsRef,
     isDetecting,
   });
@@ -84,6 +97,11 @@ export default function Home() {
             latencyRef={latencyRef}
             gestureName={gestureName}
             gestureNameRef={gestureNameRef}
+            jutsuState={jutsuState}
+            jutsuStateRef={jutsuStateRef}
+            comboProgress={comboProgress}
+            comboProgressRef={comboProgressRef}
+            palmCenterRef={palmCenterRef}
           />
 
           {/* Metrics section */}

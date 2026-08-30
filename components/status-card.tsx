@@ -73,7 +73,8 @@ export default function StatusCards({
         if (trackingEl) {
           if (hands.length > 0) {
             const count = hands[0].keypoints.length;
-            trackingEl.textContent = `1 HAND  /  ${count} LANDMARKS`;
+            const handLabel = hands.length === 1 ? 'HAND' : 'HANDS';
+            trackingEl.textContent = `${hands.length} ${handLabel}  /  ${count} LANDMARKS`;
           } else {
             trackingEl.textContent = 'NO HAND DETECTED';
           }

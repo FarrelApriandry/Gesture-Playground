@@ -203,7 +203,7 @@ export default function DraggableCard({
   return (
     <motion.div
       aria-label="Draggable gesture card"
-      className="pointer-events-none absolute z-20 select-none"
+      className="pointer-events-none absolute z-[25] select-none"
       style={{
         left,
         top,

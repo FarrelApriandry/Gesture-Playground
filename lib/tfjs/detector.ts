@@ -24,7 +24,7 @@ export async function getDetector(): Promise<HandDetector> {
     {
       runtime: 'tfjs',
       modelType: 'full',
-      maxHands: 1,
+      maxHands: 2,
     },
   );
 
